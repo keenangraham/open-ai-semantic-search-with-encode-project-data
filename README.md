@@ -1,1 +1,1 @@
-### ENCODE Project semantic search
+### Semantic search over ENCODE project data using OpenAI embeddings
