@@ -1,2 +1,1 @@
-# open-ai-semantic-search-with-encode-project-data
-Semantic search over ENCODE Project data using OpenAI embeddings
+Semantic search of ENCODE Project metadata using OpenAI embeddings
