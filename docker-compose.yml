@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+
+  python:
+    build:
+      context: .
+      dockerfile: ./docker/python/Dockerfile
+    image: ssed-python
+    command: /bin/bash
