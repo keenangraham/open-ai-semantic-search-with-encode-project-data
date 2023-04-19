@@ -19,16 +19,28 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 RUN chown -R python:python $VIRTUAL_ENV
 
-WORKDIR /python
+WORKDIR /scripts
 
-COPY --chown=python:python requirements.txt requirements.txt
+COPY --chown=python:python scripts .
+
+RUN chmod -R +x /scripts
+
+WORKDIR /ssed
+
+COPY --chown=python:python setup.cfg pyproject.toml ./
+
+COPY --chown=python:python src/ssed/__init__.py src/ssed/__init__.py
 
 USER python
 
-RUN echo $(ls)
-
 RUN python -m pip install --upgrade pip
 
-RUN pip install -r requirements.txt
+RUN pip install -e .[test]
 
-ENTRYPOINT ["/docker/entrypoint.sh"]
+COPY --chown=python:python . .
+
+EXPOSE 8000
+
+ENTRYPOINT ["/scripts/entrypoint.sh"]
+
+CMD ["/scripts/run-api.sh"]

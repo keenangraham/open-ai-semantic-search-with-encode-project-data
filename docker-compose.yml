@@ -7,4 +7,10 @@ services:
       context: .
       dockerfile: ./docker/python/Dockerfile
     image: ssed-python
-    command: /bin/bash
+    environment:
+      - OPENAI_API_KEY
+    volumes:
+      - ".:/ssed"
+    ports:
+      - "8000:8000"
+    command: /scripts/run-api.sh
