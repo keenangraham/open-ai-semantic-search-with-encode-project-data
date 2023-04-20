@@ -8,3 +8,7 @@
 **/.pytest_cache
 **/.DS_Store
 **/*.egg-info
+**/*.next/
+**/*node_modules/
+.circleci
+cdk

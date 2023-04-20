@@ -14,3 +14,14 @@ services:
     ports:
       - "8000:8000"
     command: /scripts/run-api.sh
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./docker/nextjs/Dockerfile
+    image: ssed-nextjs
+    volumes:
+      - "./frontend:/ssed"
+    ports:
+      - "3000:3000"
+    command: npm run dev

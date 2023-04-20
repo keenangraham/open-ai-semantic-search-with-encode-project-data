@@ -6,4 +6,4 @@ Run API with:
 $ docker compose up --build
 ```
 
-Browse at localhost:8000.
+Browse frontend at localhost:3000 and backend at localhost:8000.
