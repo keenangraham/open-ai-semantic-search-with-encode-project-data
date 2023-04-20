@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
 
-  python:
+  backend:
     build:
       context: .
       dockerfile: ./docker/python/Dockerfile
@@ -10,7 +10,7 @@ services:
     environment:
       - OPENAI_API_KEY
     volumes:
-      - ".:/ssed"
+      - "./backend:/ssed"
     ports:
       - "8000:8000"
     command: /scripts/run-api.sh

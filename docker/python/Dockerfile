@@ -27,9 +27,9 @@ RUN chmod -R +x /scripts
 
 WORKDIR /ssed
 
-COPY --chown=python:python setup.cfg pyproject.toml ./
+COPY --chown=python:python /backend/setup.cfg /backend/pyproject.toml ./
 
-COPY --chown=python:python src/ssed/__init__.py src/ssed/__init__.py
+COPY --chown=python:python /backend/src/ssed/__init__.py src/ssed/__init__.py
 
 USER python
 
@@ -37,7 +37,7 @@ RUN python -m pip install --upgrade pip
 
 RUN pip install -e .[test]
 
-COPY --chown=python:python . .
+COPY --chown=python:python /backend .
 
 EXPOSE 8000
 
