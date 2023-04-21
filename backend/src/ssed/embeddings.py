@@ -1,19 +1,26 @@
-from ssed.serializer import dict_to_text
+import numpy as np
 
+import json
+
+from ssed.similarity import openai_cosine_similarity
+from ssed.serializer import dict_to_text
+from ssed.remote.openai import OpenAI
 
 from dataclasses import dataclass
 
 from typing import Any
 from typing import Callable
+from typing import Optional
+from typing import cast
 
-from numpy.typing import ArrayLike
+from numpy.typing import NDArray
 
 
 @dataclass
 class EmbeddingsProps:
-    openai_client: Any
+    openai: OpenAI
     serializer: Callable[[dict[str, Any]], str] = dict_to_text
-    similarity_metric: str = 'cosine-similary'
+    similarity_metric: Callable[[NDArray[np.float64], NDArray[np.float64]], NDArray[np.float64]]  = openai_cosine_similarity
     
 
 class Embeddings:
@@ -23,18 +30,48 @@ class Embeddings:
         self.ids: list[str] = []
         self.documents: list[dict[str, Any]] = []
         self.serialized_documents: list[str] = []
-        self.embeddings: ArrayLike = []
-
-    def set_similarity_metric(self, similarity_metric: str) -> None:
-        self.props.similarity_metric = similarity_metric
+        self.values: NDArray[np.float64] = np.array([])
 
     def calculate_embeddings(self) -> None:
-        pass
+        self.values = self.props.openai.get_embeddings_for_documents(
+            self.serialized_documents
+        )
 
-    def get_embeddings(self) -> ArrayLike:
-        if not self.embeddings:
+    def get_values(self) -> NDArray[np.float64]:
+        if self.values.size == 0:
             self.calculate_embeddings()
-        return self.embeddings
+        return self.values
+
+    def calculate_similarities(self, query_embedding: NDArray[np.float64]) -> NDArray[np.float64]:
+        return self.props.similarity_metric(query_embedding, self.get_values())
+
+    def get_index_of_id(self, id_: str) -> int:
+        return self.ids.index(id_)
+
+    def get_document_by_id(self, id_: str) -> dict[str, Any]:
+        return self.documents[self.get_index_of_id(id_)]
+
+    def get_serialized_document_by_id(self, id_: str) -> str:
+        return self.serialized_documents[self.get_index_of_id(id_)]
+
+    def get_embedding_by_id(self, id_: str) -> NDArray[np.float64]:
+        return cast(NDArray[np.float64], self.get_values()[self.get_index_of_id(id_)])
+
+    def get_k_results_most_similar_to_query(self, query: str, k: int) -> list[tuple[int, int]]:
+        query_embedding = self.props.openai.get_embeddings_for_documents([query])[0]
+        similarities = self.calculate_similarities(query_embedding)
+        return [
+            (index, similarities[index])
+            for index in similarities.argsort()[::-1][:k]
+        ]
+
+    def get_k_results_most_similar_to_id(self, id_: str, k: int) -> list[tuple[int, int]]:
+        query_embedding = self.get_embedding_by_id(id_)
+        similarities = self.calculate_similarities(query_embedding)
+        return [
+            (index, similarities[index])
+            for index in similarities.argsort()[::-1][:k]
+        ]
 
     @classmethod
     def from_documents(
@@ -42,7 +79,7 @@ class Embeddings:
             props: EmbeddingsProps,
             documents: list[dict[str, Any]],
             id_key: str = 'accession',
-    ) -> Embeddings:
+    ) -> 'Embeddings':
         embeddings = cls(props=props)
         embeddings.ids = [
             document[id_key]
@@ -53,4 +90,32 @@ class Embeddings:
             props.serializer(document)
             for document in documents
         ]
+        return embeddings
+
+    def save(self, path: str) -> None:
+        np.savez_compressed(
+            path,
+            data=self.values
+        )
+        with open(f'{path}-ids.json', 'w', encoding='utf-8') as f:
+            json.dump(self.ids, f)
+        with open(f'{path}-documents.json', 'w', encoding='utf-8') as f:
+            json.dump(self.documents, f)
+        with open(f'{path}-serialized_documents.json', 'w', encoding='utf-8') as f:
+            json.dump(self.serialized_documents, f)
+
+    @classmethod
+    def load(
+            cls,
+            props: EmbeddingsProps,
+            path: str
+    ) -> 'Embeddings':
+        embeddings = cls(props=props)
+        embeddings.values = np.load(f'{path}.npz')['data']
+        with open(f'{path}-ids.json', 'r', encoding='utf-8') as f:
+            embeddings.ids = json.load(f)
+        with open(f'{path}-documents.json', 'r', encoding='utf-8') as f:
+            embeddings.documents = json.load(f)
+        with open(f'{path}-serialized_documents.json', 'r', encoding='utf-8') as f:
+            embeddings.serialized_documents = json.load(f)
         return embeddings
