@@ -6,7 +6,7 @@
 $ docker compose up --build
 ```
 
-Browse frontend at localhost:3000 and backend at localhost:8000.
+Browse frontend at `localhost:3000` and backend at `localhost:8000`.
 
 ### Run example Jupyter notebook.
 
