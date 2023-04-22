@@ -25,7 +25,7 @@ $ export OPENAI_API_KEY=xyz123
 Run notebook:
 
 ```bash
-$ jupyter notbook
+$ jupyter notebook
 ```
 
 Open `semantic_search_example.ipynb`. Note the code assumes your OpenAI API key (for making calls to the OpenAI API) is defined in your environment.
