@@ -1,6 +1,6 @@
-### Semantic search over ENCODE project data using OpenAI embeddings
+## Semantic search over ENCODE project data using OpenAI embeddings
 
-Run API with:
+### Run API with:
 
 ```bash
 $ docker compose up --build
@@ -8,7 +8,7 @@ $ docker compose up --build
 
 Browse frontend at localhost:3000 and backend at localhost:8000.
 
-Run example Jupyter notebook `semantic_search_example.ipynb`.
+### Run example Jupyter notebook.
 
 Install dependencies in clean Python (>=3.10) environment:
 
