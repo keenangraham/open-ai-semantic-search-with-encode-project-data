@@ -17,7 +17,7 @@ $ pip install -e backend/.
 $ pip install jupyter
 ```
 
-Define your OPENAI_API_KEY in your environment:
+Define your `OPENAI_API_KEY` in your environment:
 ```bash
 $ export OPENAI_API_KEY=xyz123
 ```
@@ -28,4 +28,4 @@ Run notebook:
 $ jupyter notbook
 ```
 
-Open `semantic_search_example.ipynb`. Note this assumes your OpenAI API key (for making calls to the OpenAI API) is defined in your environment.
+Open `semantic_search_example.ipynb`. Note the code assumes your OpenAI API key (for making calls to the OpenAI API) is defined in your environment.
