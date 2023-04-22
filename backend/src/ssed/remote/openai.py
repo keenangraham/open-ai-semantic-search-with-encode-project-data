@@ -15,12 +15,6 @@ from tenacity import stop_after_attempt
 from tenacity import wait_random_exponential
 
 
-@retry(
-    wait=wait_random_exponential(
-        max=60
-    ),
-    stop=stop_after_attempt(10)
-)
 async def aget_embedding(
         embedding_client: Embedding,
         text: str,

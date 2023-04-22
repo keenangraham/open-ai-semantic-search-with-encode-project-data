@@ -108,14 +108,18 @@ class Embeddings:
     def load(
             cls,
             props: EmbeddingsProps,
-            path: str
+            path: str,
+            load_documents: bool = True,
+            load_serialized_documents: bool = True,
     ) -> 'Embeddings':
         embeddings = cls(props=props)
         embeddings.values = np.load(f'{path}.npz')['data']
         with open(f'{path}-ids.json', 'r', encoding='utf-8') as f:
             embeddings.ids = json.load(f)
-        with open(f'{path}-documents.json', 'r', encoding='utf-8') as f:
-            embeddings.documents = json.load(f)
-        with open(f'{path}-serialized_documents.json', 'r', encoding='utf-8') as f:
-            embeddings.serialized_documents = json.load(f)
+        if load_documents:
+            with open(f'{path}-documents.json', 'r', encoding='utf-8') as f:
+                embeddings.documents = json.load(f)
+        if load_serialized_documents:
+            with open(f'{path}-serialized_documents.json', 'r', encoding='utf-8') as f:
+                embeddings.serialized_documents = json.load(f)
         return embeddings
