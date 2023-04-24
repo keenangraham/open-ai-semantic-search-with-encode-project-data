@@ -20,8 +20,8 @@ from numpy.typing import NDArray
 class EmbeddingsProps:
     openai: OpenAI
     serializer: Callable[[dict[str, Any]], str] = dict_to_text
-    similarity_metric: Callable[[NDArray[np.float64], NDArray[np.float64]], NDArray[np.float64]]  = openai_cosine_similarity
-    
+    similarity_metric: Callable[[NDArray[np.float64], NDArray[np.float64]], NDArray[np.float64]] = openai_cosine_similarity
+
 
 class Embeddings:
 
