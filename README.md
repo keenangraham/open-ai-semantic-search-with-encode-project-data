@@ -10,6 +10,10 @@ Browse frontend at `localhost:3000` and backend at `localhost:8000`.
 
 Automated API documentation is available at `localhost:8000/docs` or `localhost:8000/redoc`.
 
+<div align="center">
+    <img width="300" src="/screenshots/api-doc-example.png">
+</div>
+
 ![API doc example](/images/api-doc-example.png?raw=true)
 
 ### Run example Jupyter notebook.
