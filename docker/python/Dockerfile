@@ -25,6 +25,10 @@ COPY --chown=python:python scripts .
 
 RUN chmod -R +x /scripts
 
+WORKDIR /data
+
+COPY --chown=python:python data .
+
 WORKDIR /ssed
 
 COPY --chown=python:python /backend/setup.cfg /backend/pyproject.toml ./

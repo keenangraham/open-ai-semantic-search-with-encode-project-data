@@ -43,18 +43,18 @@ class Embeddings:
             maxsize=props.query_to_embedding_cache_size,
         )
 
-    def calculate_embeddings(self) -> None:
-        self.values = self.props.openai.get_embeddings_for_documents(
+    async def calculate_embeddings(self) -> None:
+        self.values = await self.props.openai.get_embeddings_for_documents(
             self.serialized_documents
         )
 
-    def get_values(self) -> NDArray[np.float64]:
+    async def get_values(self) -> NDArray[np.float64]:
         if self.values.size == 0:
-            self.calculate_embeddings()
+            await self.calculate_embeddings()
         return self.values
 
-    def calculate_similarities(self, query_embedding: NDArray[np.float64]) -> NDArray[np.float64]:
-        return self.props.similarity_metric(query_embedding, self.get_values())
+    async def calculate_similarities(self, query_embedding: NDArray[np.float64]) -> NDArray[np.float64]:
+        return self.props.similarity_metric(query_embedding, await self.get_values())
 
     def get_index_of_id(self, id_: str) -> int:
         return self.ids.index(id_)
@@ -65,18 +65,19 @@ class Embeddings:
     def get_serialized_document_by_id(self, id_: str) -> str:
         return self.serialized_documents[self.get_index_of_id(id_)]
 
-    def get_embedding_by_id(self, id_: str) -> NDArray[np.float64]:
-        return cast(NDArray[np.float64], self.get_values()[self.get_index_of_id(id_)])
+    async def get_embedding_by_id(self, id_: str) -> NDArray[np.float64]:
+        embeddings = await self.get_values()
+        return cast(NDArray[np.float64], embeddings[self.get_index_of_id(id_)])
 
-    def get_embedding_for_query(self, query: str) -> NDArray[np.float64]:
+    async def get_embedding_for_query(self, query: str) -> NDArray[np.float64]:
         if query not in self.query_to_embedding_cache:
-            embedding = self.props.openai.get_embeddings_for_documents([query])[0]
-            self.query_to_embedding_cache[query] = embedding
-        return self.query_to_embedding_cache[query]
+            embeddings = await self.props.openai.get_embeddings_for_documents([query])
+            self.query_to_embedding_cache[query] = embeddings[0]
+        return cast(NDArray[np.float64], self.query_to_embedding_cache[query])
 
-    def get_k_results_most_similar_to_query(self, query: str, k: int) -> Results:
-        query_embedding = self.get_embedding_for_query(query)
-        similarities = self.calculate_similarities(query_embedding)
+    async def get_k_results_most_similar_to_query(self, query: str, k: int) -> Results:
+        query_embedding = await self.get_embedding_for_query(query)
+        similarities = await self.calculate_similarities(query_embedding)
         indices_and_scores = [
             (index, similarities[index])
             for index in similarities.argsort()[::-1][:k]
@@ -86,9 +87,9 @@ class Embeddings:
             embeddings=self,
         )
 
-    def get_k_results_most_similar_to_id(self, id_: str, k: int) -> Results:
-        query_embedding = self.get_embedding_by_id(id_)
-        similarities = self.calculate_similarities(query_embedding)
+    async def get_k_results_most_similar_to_id(self, id_: str, k: int) -> Results:
+        query_embedding = await self.get_embedding_by_id(id_)
+        similarities = await self.calculate_similarities(query_embedding)
         indices_and_scores = [
             (index, similarities[index])
             for index in similarities.argsort()[::-1][:k]
