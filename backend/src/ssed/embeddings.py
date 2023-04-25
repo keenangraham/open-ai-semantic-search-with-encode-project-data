@@ -1,6 +1,8 @@
-import numpy as np
+import gzip
 
 import json
+
+import numpy as np
 
 from ssed.cache import SimpleCache
 
@@ -120,12 +122,18 @@ class Embeddings:
             path,
             data=self.values
         )
-        with open(f'{path}-ids.json', 'w', encoding='utf-8') as f:
-            json.dump(self.ids, f)
-        with open(f'{path}-documents.json', 'w', encoding='utf-8') as f:
-            json.dump(self.documents, f)
-        with open(f'{path}-serialized_documents.json', 'w', encoding='utf-8') as f:
-            json.dump(self.serialized_documents, f)
+        save_as_compressed_json(
+            f'{path}-ids.json.gz',
+            self.ids,
+        )
+        save_as_compressed_json(
+            f'{path}-documents.json.gz',
+            self.documents,
+        )
+        save_as_compressed_json(
+            f'{path}-serialized_documents.json.gz',
+            self.serialized_documents,
+        )
 
     @classmethod
     def load(
@@ -137,12 +145,25 @@ class Embeddings:
     ) -> 'Embeddings':
         embeddings = cls(props=props)
         embeddings.values = np.load(f'{path}.npz')['data']
-        with open(f'{path}-ids.json', 'r', encoding='utf-8') as f:
-            embeddings.ids = json.load(f)
+        embeddings.ids = load_from_compressed_json(
+            f'{path}-ids.json.gz'
+        )
         if load_documents:
-            with open(f'{path}-documents.json', 'r', encoding='utf-8') as f:
-                embeddings.documents = json.load(f)
+            embeddings.documents = load_from_compressed_json(
+                f'{path}-documents.json.gz'
+            )
         if load_serialized_documents:
-            with open(f'{path}-serialized_documents.json', 'r', encoding='utf-8') as f:
-                embeddings.serialized_documents = json.load(f)
+            embeddings.serialized_documents = load_from_compressed_json(
+                f'{path}-serialized_documents.json.gz'
+            )
         return embeddings
+
+
+def save_as_compressed_json(path: str, values: Any) -> None:
+    with gzip.open(path, 'wt', encoding='utf-8') as f:
+        json.dump(values, f)
+
+
+def load_from_compressed_json(path: str) -> Any:
+    with gzip.open(path, 'rt', encoding='utf-8') as f:
+        return json.load(f)
