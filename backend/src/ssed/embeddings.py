@@ -2,6 +2,8 @@ import numpy as np
 
 import json
 
+from ssed.cache import SimpleCache
+
 from ssed.similarity import openai_cosine_similarity
 
 from ssed.serializer import dict_to_text
@@ -24,6 +26,7 @@ class EmbeddingsProps:
     openai: OpenAI
     serializer: Callable[[dict[str, Any]], str] = dict_to_text
     similarity_metric: Callable[[NDArray[np.float64], NDArray[np.float64]], NDArray[np.float64]] = openai_cosine_similarity
+    query_to_embedding_cache_size: int = 5000
 
 
 class Embeddings:
@@ -34,6 +37,9 @@ class Embeddings:
         self.documents: list[dict[str, Any]] = []
         self.serialized_documents: list[str] = []
         self.values: NDArray[np.float64] = np.array([])
+        self.query_to_embedding_cache: SimpleCache = SimpleCache(
+            maxsize=props.query_to_embedding_cache_size,
+        )
 
     def calculate_embeddings(self) -> None:
         self.values = self.props.openai.get_embeddings_for_documents(
@@ -60,8 +66,14 @@ class Embeddings:
     def get_embedding_by_id(self, id_: str) -> NDArray[np.float64]:
         return cast(NDArray[np.float64], self.get_values()[self.get_index_of_id(id_)])
 
+    def get_embedding_for_query(self, query: str) -> NDArray[np.float64]:
+        if query not in self.query_to_embedding_cache:
+            embedding = self.props.openai.get_embeddings_for_documents([query])[0]
+            self.query_to_embedding_cache[query] = embedding
+        return self.query_to_embedding_cache[query]
+
     def get_k_results_most_similar_to_query(self, query: str, k: int) -> Results:
-        query_embedding = self.props.openai.get_embeddings_for_documents([query])[0]
+        query_embedding = self.get_embedding_for_query(query)
         similarities = self.calculate_similarities(query_embedding)
         indices_and_scores = [
             (index, similarities[index])

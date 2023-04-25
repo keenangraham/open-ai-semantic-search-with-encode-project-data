@@ -2,8 +2,6 @@ import asyncio
 
 import numpy as np
 
-import openai
-
 from numpy.typing import NDArray
 
 from openai import Embedding
