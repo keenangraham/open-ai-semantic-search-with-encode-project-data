@@ -1,20 +1,11 @@
 ## Semantic search over ENCODE project data using OpenAI embeddings
 
-### Run API with:
-
-```bash
-$ docker compose up --build
-```
-
-Browse frontend at `localhost:3000` and backend at `localhost:8000`.
-
-Automated API documentation is available at `localhost:8000/docs` or `localhost:8000/redoc`:
-
-<img style="float:left;" width="300" src="/images/api-doc-example.png">
-
 ### Run example Jupyter notebook.
 
-Install dependencies in clean Python (>=3.10) environment:
+The [Semantic Search Example](https://github.com/keenangraham/open-ai-semantic-search-with-encode-project-data/blob/main/semantic_search_example.ipynb) Jupyter notebook shows an example of using the
+underlying Python library to load JSON documents, calculate OpenAI embeddings, and perform semantic search.
+
+To run locally install dependencies in clean Python (>=3.10) environment:
 
 ```bash
 $ pip install -e backend/.
@@ -33,3 +24,17 @@ $ jupyter notebook
 ```
 
 Open `semantic_search_example.ipynb`. Note the code assumes your OpenAI API key (for making calls to the OpenAI API) is defined in your environment.
+
+### Run UI and API application.
+
+You can also run the search application (NextJS and FastAPI for the frontend and backend, respectively) locally if you have Docker installed:
+
+```bash
+$ docker compose up --build
+```
+
+Browse frontend at `localhost:3000` and backend at `localhost:8000`.
+
+Automated API documentation is available at `localhost:8000/docs` or `localhost:8000/redoc`:
+
+<img style="float:left;" width="300" src="/images/api-doc-example.png">
