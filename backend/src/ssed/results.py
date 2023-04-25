@@ -61,3 +61,19 @@ class Results:
             self.embeddings.serialized_documents[index]
             for index, score in self.indices_and_scores
         ]
+
+    def as_dict(self) -> list[dict[str, Any]]:
+        return [
+            {
+                'id_': d[0],
+                'score': d[1],
+                'document': d[2],
+                'serialized_document': d[3]
+            }
+            for d in zip(
+                    self.ids,
+                    self.scores,
+                    self.documents,
+                    self.serialized_documents,
+            )
+        ]
