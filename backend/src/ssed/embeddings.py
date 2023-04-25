@@ -3,14 +3,18 @@ import numpy as np
 import json
 
 from ssed.similarity import openai_cosine_similarity
+
 from ssed.serializer import dict_to_text
+
 from ssed.remote.openai import OpenAI
+
+from ssed.results import Results
 
 from dataclasses import dataclass
 
 from typing import Any
 from typing import Callable
-from typing import Optional
+
 from typing import cast
 
 from numpy.typing import NDArray
@@ -57,21 +61,29 @@ class Embeddings:
     def get_embedding_by_id(self, id_: str) -> NDArray[np.float64]:
         return cast(NDArray[np.float64], self.get_values()[self.get_index_of_id(id_)])
 
-    def get_k_results_most_similar_to_query(self, query: str, k: int) -> list[tuple[int, int]]:
+    def get_k_results_most_similar_to_query(self, query: str, k: int) -> Results:
         query_embedding = self.props.openai.get_embeddings_for_documents([query])[0]
         similarities = self.calculate_similarities(query_embedding)
-        return [
+        indices_and_scores = [
             (index, similarities[index])
             for index in similarities.argsort()[::-1][:k]
         ]
+        return Results(
+            indices_and_scores=indices_and_scores,
+            embeddings=self,
+        )
 
-    def get_k_results_most_similar_to_id(self, id_: str, k: int) -> list[tuple[int, int]]:
+    def get_k_results_most_similar_to_id(self, id_: str, k: int) -> Results:
         query_embedding = self.get_embedding_by_id(id_)
         similarities = self.calculate_similarities(query_embedding)
-        return [
+        indices_and_scores = [
             (index, similarities[index])
             for index in similarities.argsort()[::-1][:k]
         ]
+        return Results(
+            indices_and_scores=indices_and_scores,
+            embeddings=self,
+        )
 
     @classmethod
     def from_documents(
