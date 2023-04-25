@@ -1,6 +1,6 @@
 ## Semantic search over ENCODE project data using OpenAI embeddings
 
-### Run example Jupyter notebook.
+### Run example Jupyter notebook
 
 The [Semantic Search Example](https://github.com/keenangraham/open-ai-semantic-search-with-encode-project-data/blob/main/semantic_search_example.ipynb) Jupyter notebook shows an example of using the
 underlying Python library to load JSON documents, calculate OpenAI embeddings, and perform semantic search.
@@ -25,7 +25,7 @@ $ jupyter notebook
 
 Open `semantic_search_example.ipynb`. Note the code assumes your OpenAI API key (for making calls to the OpenAI API) is defined in your environment.
 
-### Run UI and API application.
+### Run UI and API application
 
 You can also run the search application (NextJS and FastAPI for the frontend and backend, respectively) locally if you have Docker installed:
 
