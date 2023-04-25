@@ -5,7 +5,7 @@
 The [Semantic Search Example](https://github.com/keenangraham/open-ai-semantic-search-with-encode-project-data/blob/main/semantic_search_example.ipynb) Jupyter notebook shows an example of using the
 underlying Python library to load JSON documents, calculate OpenAI embeddings, and perform semantic search.
 
-To run locally install dependencies in clean Python (>=3.10) environment:
+You can run locally by installing the following dependencies in clean Python (>=3.10) environment:
 
 ```bash
 $ pip install -e backend/.
