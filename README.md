@@ -6,7 +6,7 @@
 $ docker compose up --build
 ```
 
-Browse frontend at `localhost:3000` and backend at `localhost:8000`.
+Browse frontend at `localhost:3000` and backend at `localhost:8000`. Automated API documentation is available at `localhost:8000/docs` or `localhost:8000/redoc`.
 
 ### Run example Jupyter notebook.
 
