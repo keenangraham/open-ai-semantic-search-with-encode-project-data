@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react"
+import { FormEvent, use, useState } from "react"
 
 import useSWR from "swr";
 
@@ -9,7 +9,7 @@ import fetchSuggestion from "@/lib/fetchSuggestion";
 
 function Input() {
 
-    const [input, setInput] = useState('');
+    const [input, setInput] = useState("");
     
     const {data: suggestion, error, isLoading, mutate, isValidating} = useSWR(
         '/api/suggestion',
@@ -19,11 +19,27 @@ function Input() {
         }
     )
 
+    const submitSearchByQuery = async(useSuggestion?: boolean) => {
+        const userInput = input;
+        setInput("");
+        const query = useSuggestion ? suggestion : userInput;
+        const response = await fetch(
+            `/api/search-by-query/?query=${query}&k=3`
+        );
+        const data = await response.json();
+        console.log(data);
+    }
+
+    const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        await submitSearchByQuery();
+    };
+
     const loading = isValidating || isLoading;
 
     return (
         <div className="m-10">
-            <form className="flex flex-col lg:flex-row shadow-md shadow-slate-400/10 border rounded-md lg:divide-x">
+            <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row shadow-md shadow-slate-400/10 border rounded-md lg:divide-x">
                 <textarea
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
@@ -48,6 +64,7 @@ function Input() {
                     className="p-4 bg-violet-400 text-white transition-colors-duration-200 font-bold
                     disabled:text-gray-300 disabled:cursor-not-allowed disabled:bg-gray-400"
                     type="button"
+                    onClick={() => submitSearchByQuery(true)}
                 >
                     Use suggestion
                 </button>
