@@ -18,7 +18,9 @@ function Input() {
             revalidateOnFocus: false,
         }
     )
-    console.log(suggestion)
+
+    const loading = isValidating || isLoading;
+
     return (
         <div className="m-10">
             <form className="flex flex-col lg:flex-row shadow-md shadow-slate-400/10 border rounded-md lg:divide-x">
@@ -26,7 +28,7 @@ function Input() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     className="flex-1 p-4 outline-none rounded-md"
-                    placeholder="Enter a query..."
+                    placeholder={(loading && "Getting suggestion...") || suggestion || "Enter a query..."}
                 />
                 <button
                     className={
@@ -49,7 +51,26 @@ function Input() {
                 >
                     Use suggestion
                 </button>
+                <button
+                    className="p-4 bg-white text-violet-500 border-none transition-colors duration-200
+                    rounded-b-md md:rounded-r-md md:rounded-bl-none font-bold"
+                    type="button"
+                    onClick={mutate}
+                >
+                    New Suggestion
+                </button>
             </form>
+
+            {
+                input && (
+                    <p className="italic pt-2 pl-2 font-light">
+                        Suggestion: {" "}
+                        <span className="text-violet-500">
+                            {loading ? "Getting suggestion" : suggestion}
+                        </span>
+                    </p>
+                )
+            }
         </div>
     )
 }
