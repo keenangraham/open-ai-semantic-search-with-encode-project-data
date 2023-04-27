@@ -85,10 +85,10 @@ function Input(props: InputProps) {
                     New Suggestion
                 </button>
                 <div className="flex flex-row lg:flex-col lg:divide-y">
-                    <button onClick={() => setSize(3)} type="button" className={`p-2 text-light text-sm text-white flex-grow ${size === 3 ? "bg-violet-500" : "bg-violet-300"}`}>3</button>
-                    <button onClick={() => setSize(5)} type="button" className={`p-2 text-light text-sm  text-white flex-grow ${size === 5 ? "bg-violet-500" : "bg-violet-300"}`}>5</button>
-                    <button onClick={() => setSize(10)} type="button" className={`p-2 text-light text-sm text-white flex-grow ${size === 10 ? "bg-violet-500" : "bg-violet-300"}`}>10</button>
-                    <button onClick={() => setSize(25)} type="button" className={`p-2 text-light text-sm text-white flex-grow ${size === 25 ? "bg-violet-500" : "bg-violet-300"}`}>25</button>
+                    <button onClick={() => setSize(3)} type="button" className={`p-2 text-light text-sm text-white border-r-2 lg:border-0 flex-grow ${size === 3 ? "bg-violet-500" : "bg-violet-300"}`}>3</button>
+                    <button onClick={() => setSize(5)} type="button" className={`p-2 text-light text-sm  text-white border-r-2 lg:border-0 flex-grow ${size === 5 ? "bg-violet-500" : "bg-violet-300"}`}>5</button>
+                    <button onClick={() => setSize(10)} type="button" className={`p-2 text-light text-sm text-white border-r-2 lg:border-0 flex-grow ${size === 10 ? "bg-violet-500" : "bg-violet-300"}`}>10</button>
+                    <button onClick={() => setSize(25)} type="button" className={`p-2 text-light text-sm text-white lg:border-0 flex-grow ${size === 25 ? "bg-violet-500" : "bg-violet-300"}`}>25</button>
                 </div>
             </form>
 
