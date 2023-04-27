@@ -6,7 +6,6 @@ import Results from '../components/Results'
 import Input from '../components/Input'
 
 
-
 function Search() {
 
     const [rawResults, setRawResults] = useState([]);
