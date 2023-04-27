@@ -1,13 +1,18 @@
 'use client'
 
-import { FormEvent, use, useState } from "react"
+import { FormEvent, Dispatch, SetStateAction, use, useState } from "react"
 
 import useSWR from "swr";
 
 import fetchSuggestion from "@/lib/fetchSuggestion";
 
 
-function Input() {
+interface InputProps{
+    setRawResults: Dispatch<SetStateAction<never[]>>
+};
+
+
+function Input(props: InputProps) {
 
     const [input, setInput] = useState("");
     
@@ -27,7 +32,8 @@ function Input() {
             `/api/search-by-query/?query=${query}&k=3`
         );
         const data = await response.json();
-        console.log(data);
+        props.setRawResults(data.results);
+        props.setQuery(query);
     }
 
     const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
@@ -72,7 +78,7 @@ function Input() {
                     className="p-4 bg-white text-violet-500 border-none transition-colors duration-200
                     rounded-b-md md:rounded-r-md md:rounded-bl-none font-bold"
                     type="button"
-                    onClick={mutate}
+                    onClick={() => mutate()}
                 >
                     New Suggestion
                 </button>

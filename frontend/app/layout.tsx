@@ -1,7 +1,6 @@
 import '../styles/globals.css';
 
 import Header from '../components/Header';
-import Input from '../components/Input';
 
 
 export const metadata = {
@@ -18,7 +17,6 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Header />
-        <Input />
         {children}
       </body>
     </html>
