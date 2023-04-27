@@ -32,11 +32,13 @@ function Results(props: ResultsProps) {
             {
                 props.rawResults?.map(
                     result => (
-                        <div key={result.id} className="w-full shadow-2xl drop-shadow-lg rounded-sm bg-gray-50 p-4">
-                            <div>ID: <span>{result.id}</span></div>
-                            <div>Score: <span className="text-violet-500 text-bold">{result.score}</span></div>
-                            {result.document.title && <div>Title: <span className="font-bold">{result.document.title}</span></div>}
-                            <div>Description: <span className="font-light">{result.document.description}</span></div>
+                        <div key={result.id} className="w-full shadow-2xl drop-shadow-lg rounded-sm p-10 bg-gray-50">
+                            <div className="flex flex-col gap-y-2">
+                                <div>ID: <span>{result.id}</span></div>
+                                {result.document.title && <div>Title: <span className="font-bold">{result.document.title}</span></div>}
+                                <div>Score: <span className="text-violet-500 text-bold">{result.score.toFixed(7)}</span></div>
+                                {result.document.description && <div>Description: <span className="font-light">{result.document.description}</span></div>}
+                            </div>
                         </div>
                     )
                 )

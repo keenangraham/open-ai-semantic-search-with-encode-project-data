@@ -9,6 +9,7 @@ import fetchSuggestion from "@/lib/fetchSuggestion";
 
 interface InputProps{
     setRawResults: Dispatch<SetStateAction<never[]>>
+    setQuery: Dispatch<SetStateAction<string>>
 };
 
 
@@ -33,7 +34,7 @@ function Input(props: InputProps) {
         );
         const data = await response.json();
         props.setRawResults(data.results);
-        props.setQuery(query);
+        query && props.setQuery(query);
     }
 
     const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
