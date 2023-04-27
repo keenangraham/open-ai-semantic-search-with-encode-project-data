@@ -10,13 +10,14 @@ import fetchSuggestion from "@/lib/fetchSuggestion";
 interface InputProps{
     setRawResults: Dispatch<SetStateAction<never[]>>
     setQuery: Dispatch<SetStateAction<string>>
+    setSize: Dispatch<SetStateAction<number>>
+    size: number
 };
 
 
 function Input(props: InputProps) {
 
     const [input, setInput] = useState("");
-    const [size, setSize] = useState(3);
     
     const {data: suggestion, error, isLoading, mutate, isValidating} = useSWR(
         '/api/suggestion',
@@ -31,7 +32,7 @@ function Input(props: InputProps) {
         setInput("");
         const query = useSuggestion ? suggestion : userInput;
         const response = await fetch(
-            `/api/search-by-query/?query=${query}&k=${size}`
+            `/api/search-by-query/?query=${query}&k=${props.size}`
         );
         const data = await response.json();
         props.setRawResults(data.results);
@@ -85,10 +86,10 @@ function Input(props: InputProps) {
                     New Suggestion
                 </button>
                 <div className="flex flex-row lg:flex-col lg:divide-y">
-                    <button onClick={() => setSize(3)} type="button" className={`p-2 text-light text-sm text-white border-r-2 lg:border-0 flex-grow ${size === 3 ? "bg-violet-500" : "bg-violet-300"}`}>3</button>
-                    <button onClick={() => setSize(5)} type="button" className={`p-2 text-light text-sm  text-white border-r-2 lg:border-0 flex-grow ${size === 5 ? "bg-violet-500" : "bg-violet-300"}`}>5</button>
-                    <button onClick={() => setSize(10)} type="button" className={`p-2 text-light text-sm text-white border-r-2 lg:border-0 flex-grow ${size === 10 ? "bg-violet-500" : "bg-violet-300"}`}>10</button>
-                    <button onClick={() => setSize(25)} type="button" className={`p-2 text-light text-sm text-white lg:border-0 flex-grow ${size === 25 ? "bg-violet-500" : "bg-violet-300"}`}>25</button>
+                    <button onClick={() => props.setSize(3)} type="button" className={`p-2 text-light text-sm text-white border-r-2 lg:border-0 flex-grow ${props.size === 3 ? "bg-violet-500" : "bg-violet-300"}`}>3</button>
+                    <button onClick={() => props.setSize(5)} type="button" className={`p-2 text-light text-sm  text-white border-r-2 lg:border-0 flex-grow ${props.size === 5 ? "bg-violet-500" : "bg-violet-300"}`}>5</button>
+                    <button onClick={() => props.setSize(10)} type="button" className={`p-2 text-light text-sm text-white border-r-2 lg:border-0 flex-grow ${props.size === 10 ? "bg-violet-500" : "bg-violet-300"}`}>10</button>
+                    <button onClick={() => props.setSize(25)} type="button" className={`p-2 text-light text-sm text-white lg:border-0 flex-grow ${props.size === 25 ? "bg-violet-500" : "bg-violet-300"}`}>25</button>
                 </div>
             </form>
 

@@ -1,5 +1,7 @@
 'use client'
 
+import { Dispatch, SetStateAction } from "react"
+
 import Card from "../components/Card"
 
 
@@ -11,7 +13,8 @@ export type Result = {
 
 interface ResultsProps {
     rawResults: Result[],
-    query: string
+    query: string,
+    searchForSimilar: (id: string) => void
 }
 
 
@@ -29,6 +32,8 @@ function Title(query: string, numberOfResults: number) {
 
 
 function Results(props: ResultsProps) {
+
+  
   
   return (
     <div>
@@ -36,7 +41,7 @@ function Results(props: ResultsProps) {
         <div className='grid gap-4 grid-cols-1 px-0 md:px-10'>
             {
                 props.rawResults?.map(
-                    (result: Result) => <Card result={result} />
+                    (result: Result) => <Card result={result} searchForSimilar={props.searchForSimilar} />
                 )
             }
         </div>
