@@ -15,7 +15,7 @@ app = FastAPI()
 
 
 search = Search(
-    path='/data/awards'
+    path='/data/datasets'
 )
 
 

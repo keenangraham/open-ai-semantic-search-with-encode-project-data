@@ -23,7 +23,7 @@ function Header() {
         </div>
         <div className="flex text-xs md:text-base divide-x items-center text-gray-500">
             <Link 
-                href="https://www.encodeproject.org/search/?type=Experiment"
+                href="https://www.encodeproject.org/search/?type=Experiment&type=SingleCellUnit&type=FunctionalCharacterizationExperiment&type=ReferenceEpigenome&type=TransgenicEnhancerExperiment&type=Award"
                 className="px-2 font-light text-right"
             >
                 Data

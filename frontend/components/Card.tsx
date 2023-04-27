@@ -45,12 +45,20 @@ function Card(props: CardProps) {
                     ID: <Link className="underline" href={`https://www.encodeproject.org${result.id}`} rel="noopener noreferrer" target="_blank">{result.id}</Link>
                 </div>
                 {result.document.title && <div>Title: <span className="font-bold">{result.document.title}</span></div>}
+                {result.document.assay_title && <div>Assay title: <span className="font-light">{result.document.assay_title}</span></div>}
                 <div>Score: <span className="text-violet-500 text-bold">{result.score.toFixed(7)}</span></div>
                 {result.document.pi && <div>Lab: <span className="font-light">{result.document.pi.title}</span></div>}
+                {result.document.lab && <div>Lab: <span className="font-light">{result.document.lab.title}</span></div>}
                 {
-                result.document.description && 
+                result.document.biosample_summary &&
                 <div>
-                    Description: <span className="font-light">{renderDetails(result.document.description, showDetails)}</span> 
+                    Summary: <span className="font-light">{renderDetails(result.document.biosample_summary, showDetails)}</span>
+                </div>
+                }
+                {
+                result.document.description &&
+                <div>
+                    Description: <span className="font-light">{renderDetails(result.document.description, showDetails)}</span>
                 </div>
                 }
                 <div className='flex justify-between'>
