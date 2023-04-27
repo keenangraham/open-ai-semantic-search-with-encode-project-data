@@ -4,6 +4,8 @@ import json
 
 import numpy as np
 
+import time
+
 from ssed.cache import SimpleCache
 
 from ssed.similarity import openai_cosine_similarity
@@ -56,6 +58,16 @@ class Embeddings:
     async def calculate_similarities(self, query_embedding: NDArray[np.float64]) -> NDArray[np.float64]:
         return self.props.similarity_metric(query_embedding, await self.get_values())
 
+    async def timed_calculate_similarities(
+            self,
+            query_embedding: NDArray[np.float64]
+    ) -> tuple[float, NDArray[np.float64]]:
+        values = await self.get_values()
+        start_time = time.monotonic()
+        similarites = self.props.similarity_metric(query_embedding, values)
+        end_time = time.monotonic()
+        return (end_time - start_time, similarites)
+
     def get_index_of_id(self, id_: str) -> int:
         return self.ids.index(id_)
 
@@ -77,7 +89,7 @@ class Embeddings:
 
     async def get_k_results_most_similar_to_query(self, query: str, k: int) -> Results:
         query_embedding = await self.get_embedding_for_query(query)
-        similarities = await self.calculate_similarities(query_embedding)
+        calculation_time, similarities = await self.timed_calculate_similarities(query_embedding)
         indices_and_scores = [
             (index, similarities[index])
             for index in similarities.argsort()[::-1][:k]
@@ -85,11 +97,12 @@ class Embeddings:
         return Results(
             indices_and_scores=indices_and_scores,
             embeddings=self,
+            calculation_time=calculation_time,
         )
 
     async def get_k_results_most_similar_to_id(self, id_: str, k: int) -> Results:
         query_embedding = await self.get_embedding_by_id(id_)
-        similarities = await self.calculate_similarities(query_embedding)
+        calculation_time, similarities = await self.timed_calculate_similarities(query_embedding)
         indices_and_scores = [
             (index, similarities[index])
             for index in similarities.argsort()[::-1][:k]
@@ -97,6 +110,7 @@ class Embeddings:
         return Results(
             indices_and_scores=indices_and_scores,
             embeddings=self,
+            calculation_time=calculation_time,
         )
 
     @classmethod

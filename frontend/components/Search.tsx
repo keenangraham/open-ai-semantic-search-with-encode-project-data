@@ -11,6 +11,8 @@ function Search() {
     const [rawResults, setRawResults] = useState([]);
     const [query, setQuery] = useState("");
     const [size, setSize] = useState(3);
+    const [calculationTime, setCalculationTime] = useState(0.0);
+    const [totalDocuments, setTotalDocuments] = useState(0);
 
     const searchForSimilar = async(id: string) => {
         const response = await fetch(
@@ -19,6 +21,8 @@ function Search() {
         const data = await response.json();
         setRawResults(data.results);
         setQuery(`documents similar to ${id}`)
+        setCalculationTime(data.time)
+        setTotalDocuments(data.total)
         window.scrollTo(
             {
                 top: 0,
@@ -29,9 +33,22 @@ function Search() {
 
     return (
         <div>
-            <Input setRawResults={setRawResults} setQuery={setQuery} setSize={setSize} size={size} />
+            <Input
+                setRawResults={setRawResults}
+                setQuery={setQuery}
+                setSize={setSize}
+                size={size}
+                setCalculationTime={setCalculationTime}
+                setTotalDocuments={setTotalDocuments}
+            />
             <div className='mx-0'>
-                <Results rawResults={rawResults} query={query} searchForSimilar={searchForSimilar} />
+                <Results
+                    rawResults={rawResults}
+                    query={query}
+                    totalDocuments={totalDocuments}
+                    calculationTime={calculationTime}
+                    searchForSimilar={searchForSimilar}
+                />
             </div>
         </div>
     )

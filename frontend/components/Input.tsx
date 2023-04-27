@@ -11,6 +11,8 @@ interface InputProps{
     setRawResults: Dispatch<SetStateAction<never[]>>
     setQuery: Dispatch<SetStateAction<string>>
     setSize: Dispatch<SetStateAction<number>>
+    setCalculationTime: Dispatch<SetStateAction<number>>
+    setTotalDocuments: Dispatch<SetStateAction<number>>
     size: number
 };
 
@@ -36,6 +38,8 @@ function Input(props: InputProps) {
         );
         const data = await response.json();
         props.setRawResults(data.results);
+        props.setCalculationTime(data.time);
+        props.setTotalDocuments(data.total);
         query && props.setQuery(query);
     }
 

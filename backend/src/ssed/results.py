@@ -1,5 +1,6 @@
 from typing import Any
 from typing import Iterable
+from typing import Optional
 
 
 class Results:
@@ -7,10 +8,12 @@ class Results:
     def __init__(
             self,
             indices_and_scores: list[tuple[int, int]],
-            embeddings: Any
+            embeddings: Any,
+            calculation_time: Optional[float] = None,
     ) -> None:
         self.indices_and_scores = indices_and_scores
         self.embeddings = embeddings
+        self.calculation_time = calculation_time
 
     def __str__(self) -> str:
         ids_and_scores = [
@@ -65,16 +68,20 @@ class Results:
             for index, score in self.indices_and_scores
         ]
 
-    def as_dict(self) -> list[dict[str, Any]]:
-        return [
-            {
-                'id': d[0],
-                'score': d[1],
-                'document': d[2],
-            }
-            for d in zip(
-                    self.ids,
-                    self.scores,
-                    self.documents
-            )
-        ]
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            'total': len(self.embeddings.ids),
+            'time': self.calculation_time or 0.0,
+            'results': [
+                {
+                    'id': d[0],
+                    'score': d[1],
+                    'document': d[2],
+                }
+                for d in zip(
+                        self.ids,
+                        self.scores,
+                        self.documents
+                )
+            ]
+        }

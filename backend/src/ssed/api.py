@@ -32,9 +32,7 @@ async def search_by_query(query: str, k: Annotated[int, Query(ge=0, le=MAX_RESUL
         query=query,
         k=k,
     )
-    return {
-        'results': results.as_dict(),
-    }
+    return results.as_dict()
 
 
 @app.get('/search-by-id/')
@@ -48,6 +46,4 @@ async def search_by_id(id: str, k: Annotated[int, Query(ge=0, le=MAX_RESULTS)] =
         id_=id,
         k=k,
     )
-    return {
-        'results': results.as_dict(),
-    }
+    return results.as_dict()
