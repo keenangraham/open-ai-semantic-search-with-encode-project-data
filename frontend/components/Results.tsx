@@ -17,8 +17,12 @@ interface ResultsProps {
 
 function Title(query: string, numberOfResults: number) {
     return (
-        <div className="italic font-bold pb-4 px-0 md:px-11 text-justify">
-            Showing <span className="not-italic text-violet-500">{numberOfResults}</span> results for <span className="not-italic text-violet-500">{query}</span>
+        <div className="italic text-justify border-violet-500 m-10 mb-0 flex">
+            <div className="border-violet-500 border-0 rounded-lg p-5 pl-0 pb-2">
+                Showing <span className="not-italic bg-violet-500 text-white rounded-md p-1">{numberOfResults}</span> results for <span className="not-italic text-violet-500">{query}</span>
+            </div>
+            <div>
+            </div>
         </div>
     )
 }

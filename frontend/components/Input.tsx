@@ -16,6 +16,7 @@ interface InputProps{
 function Input(props: InputProps) {
 
     const [input, setInput] = useState("");
+    const [size, setSize] = useState(3);
     
     const {data: suggestion, error, isLoading, mutate, isValidating} = useSWR(
         '/api/suggestion',
@@ -30,7 +31,7 @@ function Input(props: InputProps) {
         setInput("");
         const query = useSuggestion ? suggestion : userInput;
         const response = await fetch(
-            `/api/search-by-query/?query=${query}&k=3`
+            `/api/search-by-query/?query=${query}&k=${size}`
         );
         const data = await response.json();
         props.setRawResults(data.results);
@@ -83,6 +84,12 @@ function Input(props: InputProps) {
                 >
                     New Suggestion
                 </button>
+                <div className="flex flex-row lg:flex-col lg:divide-y">
+                    <button onClick={() => setSize(3)} type="button" className={`p-2 text-light text-sm text-white flex-grow ${size === 3 ? "bg-violet-500" : "bg-violet-300"}`}>3</button>
+                    <button onClick={() => setSize(5)} type="button" className={`p-2 text-light text-sm  text-white flex-grow ${size === 5 ? "bg-violet-500" : "bg-violet-300"}`}>5</button>
+                    <button onClick={() => setSize(10)} type="button" className={`p-2 text-light text-sm text-white flex-grow ${size === 10 ? "bg-violet-500" : "bg-violet-300"}`}>10</button>
+                    <button onClick={() => setSize(25)} type="button" className={`p-2 text-light text-sm text-white flex-grow ${size === 25 ? "bg-violet-500" : "bg-violet-300"}`}>25</button>
+                </div>
             </form>
 
             {
