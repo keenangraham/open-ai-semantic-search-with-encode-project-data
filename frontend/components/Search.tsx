@@ -10,7 +10,7 @@ function Search() {
 
     const [rawResults, setRawResults] = useState([]);
     const [query, setQuery] = useState("");
-    const [size, setSize] = useState(3);
+    const [size, setSize] = useState(10);
     const [calculationTime, setCalculationTime] = useState(0.0);
     const [totalDocuments, setTotalDocuments] = useState(0);
 

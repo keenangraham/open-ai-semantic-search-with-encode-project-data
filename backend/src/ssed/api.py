@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI
 from fastapi import HTTPException
 from fastapi import Query
@@ -15,7 +17,7 @@ app = FastAPI()
 
 
 search = Search(
-    path='/data/datasets'
+    path=os.environ['DATA_SOURCE']
 )
 
 

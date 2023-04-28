@@ -110,7 +110,7 @@ class SemanticSearch(Stack):
                 )
             ],
             environment={
-                'BACKEND_URL': 'http://localhost:8000',
+                'DATA_SOURCE': '/data/datasets',
             },
             secrets={
                 'OPENAI_API_KEY': Secret.from_secrets_manager(

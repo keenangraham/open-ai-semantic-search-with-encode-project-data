@@ -9,6 +9,7 @@ services:
     image: ssed-backend
     environment:
       - OPENAI_API_KEY
+      - DATA_SOURCE=/data/awards
     volumes:
       - "./backend:/ssed"
     ports:
@@ -20,6 +21,8 @@ services:
       context: .
       dockerfile: ./docker/frontend/Dockerfile
     image: ssed-frontend
+    environment:
+      - BACKEND_URL=http://backend:8000
     volumes:
       - "./frontend:/ssed"
     ports:
