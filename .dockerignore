@@ -11,4 +11,5 @@
 **/*.next/
 **/*node_modules/
 .circleci
+**/*cdk
 cdk

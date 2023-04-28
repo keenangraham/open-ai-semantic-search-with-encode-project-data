@@ -5,10 +5,11 @@ services:
   backend:
     build:
       context: .
-      dockerfile: ./docker/python/Dockerfile
-    image: ssed-python
+      dockerfile: ./docker/backend/Dockerfile
+    image: ssed-backend
     environment:
       - OPENAI_API_KEY
+      - DATA_SOURCE=/data/awards
     volumes:
       - "./backend:/ssed"
     ports:
@@ -18,8 +19,10 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: ./docker/nextjs/Dockerfile
-    image: ssed-nextjs
+      dockerfile: ./docker/frontend/Dockerfile
+    image: ssed-frontend
+    environment:
+      - BACKEND_URL=http://backend:8000
     volumes:
       - "./frontend:/ssed"
     ports:

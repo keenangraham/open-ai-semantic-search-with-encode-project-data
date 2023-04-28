@@ -2,9 +2,10 @@ import { NextResponse } from 'next/server'
 
 
 export async function GET(request: Request) {
+    const BACKEND_URL = process.env.BACKEND_URL;
     const params = new URL(request.url);
     const response = await fetch(
-      `http://backend:8000/search-by-query/${params.search}`,
+      `${BACKEND_URL}/search-by-query/${params.search}`,
       {
         cache: 'no-store'
       }

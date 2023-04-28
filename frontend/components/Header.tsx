@@ -7,7 +7,7 @@ function Header() {
     <header className="flex p-5 justify-between sticky top-0 bg-white z-50 shadow-md">
         <div className="flex space-x-2 items-center">
             <Image
-                src="/../public/embeddings.png"
+                src="/embeddings.png"
                 alt="logo"
                 height={60} 
                 width={60} 
@@ -23,10 +23,16 @@ function Header() {
         </div>
         <div className="flex text-xs md:text-base divide-x items-center text-gray-500">
             <Link 
-                href="https://www.encodeproject.org/search/?type=Experiment"
+                href="https://www.encodeproject.org/search/?type=Experiment&type=SingleCellUnit&type=FunctionalCharacterizationExperiment&type=ReferenceEpigenome&type=TransgenicEnhancerExperiment&type=Award&status=released&status=current"
                 className="px-2 font-light text-right"
             >
                 Data
+            </Link>
+            <Link
+                href="https://github.com/keenangraham/open-ai-semantic-search-with-encode-project-data/blob/main/semantic_search_example.ipynb"
+                className="px-2 font-light text-right"
+            >
+                About
             </Link>
             <Link 
                 href="https://github.com/keenangraham/open-ai-semantic-search-with-encode-project-data"

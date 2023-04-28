@@ -24,7 +24,7 @@ function Title(query: string, numberOfResults: number, totalDocuments: number, c
     return (
         <div className="italic text-justify border-violet-500 m-10 mb-0 flex">
             <div className="border-violet-500 border-0 rounded-lg p-5 pl-0 pb-2">
-                Showing <span className="not-italic bg-violet-500 text-white rounded-md p-1">{numberOfResults}</span> of {totalDocuments} results ({calculationTime.toFixed(5)} seconds) for <span className="not-italic text-violet-500">{query}</span>
+                Showing <span className="not-italic bg-violet-500 text-white rounded-md p-1">{numberOfResults}</span> of {Intl.NumberFormat().format(totalDocuments)} results ({calculationTime.toFixed(5)} seconds) for <span className="not-italic text-violet-500">{query}</span>
             </div>
             <div>
             </div>
