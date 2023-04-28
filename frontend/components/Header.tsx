@@ -7,7 +7,7 @@ function Header() {
     <header className="flex p-5 justify-between sticky top-0 bg-white z-50 shadow-md">
         <div className="flex space-x-2 items-center">
             <Image
-                src="/../public/embeddings.png"
+                src="/embeddings.png"
                 alt="logo"
                 height={60} 
                 width={60} 
