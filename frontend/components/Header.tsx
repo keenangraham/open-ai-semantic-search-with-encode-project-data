@@ -28,6 +28,12 @@ function Header() {
             >
                 Data
             </Link>
+            <Link
+                href="https://github.com/keenangraham/open-ai-semantic-search-with-encode-project-data/blob/main/semantic_search_example.ipynb"
+                className="px-2 font-light text-right"
+            >
+                About
+            </Link>
             <Link 
                 href="https://github.com/keenangraham/open-ai-semantic-search-with-encode-project-data"
                 className="px-2 font-light"
