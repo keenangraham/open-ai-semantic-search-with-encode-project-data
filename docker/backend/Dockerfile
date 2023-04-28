@@ -27,7 +27,7 @@ RUN chmod -R +x /scripts
 
 WORKDIR /data
 
-COPY --chown=python:python data .
+COPY --chown=python:python /data .
 
 WORKDIR /ssed
 

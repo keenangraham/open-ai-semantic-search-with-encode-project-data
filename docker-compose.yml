@@ -5,8 +5,8 @@ services:
   backend:
     build:
       context: .
-      dockerfile: ./docker/python/Dockerfile
-    image: ssed-python
+      dockerfile: ./docker/backend/Dockerfile
+    image: ssed-backend
     environment:
       - OPENAI_API_KEY
     volumes:
@@ -18,8 +18,8 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: ./docker/nextjs/Dockerfile
-    image: ssed-nextjs
+      dockerfile: ./docker/frontend/Dockerfile
+    image: ssed-frontend
     volumes:
       - "./frontend:/ssed"
     ports:
