@@ -1,4 +1,4 @@
-FROM python:3.10.11-buster
+FROM --platform=linux/amd64 python:3.10.11-buster
 
 ENV PYTHONDONTWRITEBYTECODE 1
 

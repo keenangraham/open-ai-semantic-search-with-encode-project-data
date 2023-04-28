@@ -1,4 +1,4 @@
-FROM node:16.14.0-alpine
+FROM --platform=linux/amd64 node:16.14.0-alpine
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
