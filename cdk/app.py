@@ -80,6 +80,9 @@ class SemanticSearch(Stack):
                 container_name='frontend',
                 container_port=3000,
                 image=frontend_image,
+                environment={
+                    'BACKEND_URL': 'http://localhost:8000',
+                },
                 log_driver=LogDriver.aws_logs(
                     stream_prefix='frontend',
                     mode=AwsLogDriverMode.NON_BLOCKING,
@@ -106,6 +109,9 @@ class SemanticSearch(Stack):
                     container_port=8000
                 )
             ],
+            environment={
+                'BACKEND_URL': 'http://localhost:8000',
+            },
             secrets={
                 'OPENAI_API_KEY': Secret.from_secrets_manager(
                     openai_api_key_secret,

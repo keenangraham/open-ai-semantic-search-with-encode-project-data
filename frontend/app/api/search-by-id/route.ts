@@ -2,9 +2,10 @@ import { NextResponse } from 'next/server'
 
 
 export async function GET(request: Request) {
+    const BACKEND_URL = process.env.BACKEND_URL;
     const params = new URL(request.url);
     const response = await fetch(
-      `http://localhost:8000/search-by-id/${params.search}`,
+      `${BACKEND_URL}/search-by-id/${params.search}`,
       {
         cache: 'no-store'
       }
