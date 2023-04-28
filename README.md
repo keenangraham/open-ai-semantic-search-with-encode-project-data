@@ -35,7 +35,7 @@ $ docker compose up --build
 
 Browse frontend at `localhost:3000` and backend at `localhost:8000`.
 
-img style="float:center;" src="/images/search.gif">
+<img style="float:center;" src="/images/search.gif">
 
 Automated API documentation is available at `localhost:8000/docs` or `localhost:8000/redoc`:
 
