@@ -27,7 +27,7 @@ class Results:
             yield item
 
     @property
-    def raw(self) -> list[tuple[int, int]]:
+    def raw(self) -> list[tuple[int, float]]:
         return [
             (int(index), float(score))
             for index, score in self.indices_and_scores
