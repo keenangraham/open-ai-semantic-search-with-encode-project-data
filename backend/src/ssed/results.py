@@ -10,10 +10,12 @@ class Results:
             indices_and_scores: list[tuple[int, int]],
             embeddings: Any,
             calculation_time: Optional[float] = None,
+            query: Optional[str] = None,
     ) -> None:
         self.indices_and_scores = indices_and_scores
         self.embeddings = embeddings
         self.calculation_time = calculation_time
+        self.query = query
 
     def __str__(self) -> str:
         ids_and_scores = [

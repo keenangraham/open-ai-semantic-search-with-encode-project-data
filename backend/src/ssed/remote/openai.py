@@ -82,7 +82,7 @@ class OpenAI:
         )
         return np.array(embeddings)
 
-    async def get_chat_completion_for_messages(self, messages: list[str], temperature: float = 1) -> str:
+    async def get_chat_completion_for_messages(self, messages: list[str], temperature: float = 0) -> str:
         content = await aget_chat_completion(
             chat_client=self.props.chat_client,
             model=self.props.chat_model,
