@@ -13,7 +13,7 @@ from typing import Any
 
 MAX_TOKENS = 4096 - 500
 
-PROMPT = 'Summarize why the results match or do not match the query.'
+PROMPT = 'Summarize why the results match or do not match the query. Do not mention specific results.'
 
 
 @dataclass
@@ -66,7 +66,7 @@ class SearchRelevancyExpert:
             base=message,
             to_add=format_results(self.props.results),
             model=self.props.openai.props.chat_model,
-        )
+        ) + '\n\n Search relevancy summary:'
         return [
             message
         ]
