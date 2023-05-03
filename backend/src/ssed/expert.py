@@ -4,7 +4,11 @@ from ssed.remote.openai import OpenAI
 
 from ssed.results import Results
 
+from ssed.serializer import dict_to_text
+
 from dataclasses import dataclass
+
+from typing import Any
 
 
 MAX_TOKENS = 4096 - 500
@@ -33,6 +37,22 @@ class SearchRelevancyExpert:
             props=SearchRelevancyExpertProps(
                 query=results.query,
                 results=results.serialized_documents,
+            )
+        )
+
+    @classmethod
+    def from_json(
+            cls,
+            query: str,
+            results: list[dict[str, Any]]
+    ) -> 'SearchRelevancyExpert':
+        return cls(
+            props=SearchRelevancyExpertProps(
+                query=query,
+                results=[
+                    dict_to_text(result)
+                    for result in results
+                ],
             )
         )
 

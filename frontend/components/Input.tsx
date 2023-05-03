@@ -8,12 +8,14 @@ import fetchSuggestion from "@/lib/fetchSuggestion";
 
 
 interface InputProps{
-    setRawResults: Dispatch<SetStateAction<never[]>>
-    setQuery: Dispatch<SetStateAction<string>>
-    setSize: Dispatch<SetStateAction<number>>
-    setCalculationTime: Dispatch<SetStateAction<number>>
-    setTotalDocuments: Dispatch<SetStateAction<number>>
-    size: number
+    setRawResults: Dispatch<SetStateAction<never[]>>;
+    setQuery: Dispatch<SetStateAction<string>>;
+    setIsUserQuery: Dispatch<SetStateAction<boolean>>;
+    setSize: Dispatch<SetStateAction<number>>;
+    setCalculationTime: Dispatch<SetStateAction<number>>;
+    setTotalDocuments: Dispatch<SetStateAction<number>>;
+    setRelevancy: Dispatch<SetStateAction<string>>;
+    size: number;
 };
 
 
@@ -34,9 +36,11 @@ function Input(props: InputProps) {
         setInput("");
         const query = useSuggestion ? suggestion : userInput;
         const response = await fetch(
-            `/api/search-by-query/?query=${query}&k=${props.size}`
+            `/api/search-by-query?query=${query}&k=${props.size}`
         );
         const data = await response.json();
+        props.setRelevancy("")
+        props.setIsUserQuery(true);
         props.setRawResults(data.results);
         props.setCalculationTime(data.time);
         props.setTotalDocuments(data.total);

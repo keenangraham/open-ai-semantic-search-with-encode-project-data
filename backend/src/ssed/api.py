@@ -4,6 +4,8 @@ from fastapi import FastAPI
 from fastapi import HTTPException
 from fastapi import Query
 
+from pydantic import BaseModel
+
 from ssed.search import Search
 
 from typing import Annotated
@@ -49,3 +51,21 @@ async def search_by_id(id: str, k: Annotated[int, Query(ge=0, le=MAX_RESULTS)] =
         k=k,
     )
     return results.as_dict()
+
+
+class SearchResults(BaseModel):
+    query: str
+    results: list[dict[str, Any]]
+
+
+@app.post('/evaluate-search-relevancy/')
+async def evaluate_search_relevancy(
+        search_results: SearchResults
+) -> dict[str, Any]:
+    expert = search.relevancy_expert_factory.from_json(
+        query=search_results.query,
+        results=search_results.results,
+    )
+    return {
+        'evaluation': await expert.evaluate()
+    }
