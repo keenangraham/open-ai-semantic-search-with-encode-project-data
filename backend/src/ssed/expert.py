@@ -59,14 +59,14 @@ class SearchRelevancyExpert:
     def generate_messages(self) -> list[str]:
         message = (
             self.props.prompt
-            + f'\n\n Query: "{self.props.query}"'
-            + '\n\n Results:'
+            + f'\n\nQuery: "{self.props.query}"'
+            + '\n\nResults:'
         )
         message = size_limited_add(
             base=message,
             to_add=format_results(self.props.results),
             model=self.props.openai.props.chat_model,
-        ) + '\n\n Search relevancy summary:'
+        ) + '\n\nSearch relevancy summary:'
         return [
             message
         ]
