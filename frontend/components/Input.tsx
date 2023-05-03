@@ -58,6 +58,7 @@ function Input(props: InputProps) {
         <div className="m-10">
             <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row shadow-md shadow-slate-400/10 border rounded-md lg:divide-x">
                 <textarea
+                    maxLength={5000}
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     className="flex-1 p-4 outline-none rounded-md"
