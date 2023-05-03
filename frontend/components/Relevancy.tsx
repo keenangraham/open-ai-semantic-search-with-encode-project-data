@@ -15,7 +15,20 @@ interface RelvancyProps {
 }
 
 
-async function evaluateRelevancy(query: string, rawResults: Result[]) {
+interface evaluateRelevancyProps {
+    query: string;
+    rawResults: Result[];
+    signal: AbortSignal;
+}
+
+
+async function evaluateRelevancy(
+    {
+        query,
+        rawResults,
+        signal,
+    }: evaluateRelevancyProps
+) {
     const response = await fetch(
         '/api/evaluate-search-relevancy/',
         {
@@ -24,6 +37,7 @@ async function evaluateRelevancy(query: string, rawResults: Result[]) {
               'Content-Type': 'application/json',
           },
           cache: 'no-store',
+          signal: signal,
           body: JSON.stringify(
             {
                 query: query,
@@ -42,21 +56,32 @@ function Relevancy(props: RelvancyProps) {
 
     useEffect(
         () => {
+            const controller = new AbortController();
+            let ignore = false;
             if (!props.isUserQuery || props.query.length === 0) {
                 return
             }
             setIsLoading(true)
             props.setRelevancy("")
             evaluateRelevancy(
-                props.query,
-                props.rawResults,
+                {
+                    query: props.query,
+                    rawResults: props.rawResults,
+                    signal: controller.signal,
+                }
             ).then(
-                result => props.setRelevancy(result.evaluation)
-            ).finally(
-                () => {
+                result => {
+                    if (ignore) {
+                        return
+                    }
+                    props.setRelevancy(result.evaluation)
                     setIsLoading(false)
                 }
             )
+            return () => {
+                ignore = true;
+                controller.abort();
+            }
         },
         [
             props.rawResults
