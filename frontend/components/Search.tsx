@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 
-import Results from '../components/Results'
-import Input from '../components/Input'
+import Results from './Results'
+import Input from './Input'
+import Relevancy from './Relevancy';
 
 
 function Search() {
@@ -13,6 +14,8 @@ function Search() {
     const [size, setSize] = useState(10);
     const [calculationTime, setCalculationTime] = useState(0.0);
     const [totalDocuments, setTotalDocuments] = useState(0);
+    const [relevancy, setRelevancy] = useState("");
+    const [isUserQuery, setIsUserQuery] = useState(false);
 
     const searchForSimilar = async(id: string) => {
         const response = await fetch(
@@ -23,6 +26,7 @@ function Search() {
         setQuery(`documents similar to ${id}`)
         setCalculationTime(data.time)
         setTotalDocuments(data.total)
+        setIsUserQuery(false);
         window.scrollTo(
             {
                 top: 0,
@@ -36,11 +40,23 @@ function Search() {
             <Input
                 setRawResults={setRawResults}
                 setQuery={setQuery}
+                setIsUserQuery={setIsUserQuery}
                 setSize={setSize}
                 size={size}
                 setCalculationTime={setCalculationTime}
                 setTotalDocuments={setTotalDocuments}
+                setRelevancy={setRelevancy}
             />
+            <div>
+                <Relevancy
+                    query={query}
+                    size={size}
+                    isUserQuery={isUserQuery}
+                    rawResults={rawResults}
+                    relevancy={relevancy}
+                    setRelevancy={setRelevancy}                    
+                />
+            </div>
             <div className='mx-0'>
                 <Results
                     rawResults={rawResults}

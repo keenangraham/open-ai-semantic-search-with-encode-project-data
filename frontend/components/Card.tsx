@@ -8,8 +8,8 @@ import type { Result } from "../components/Results"
 
 
 interface CardProps{
-    result: Result,
-    searchForSimilar: (id: string) => void
+    result: Result;
+    searchForSimilar: (id: string) => void;
 };
 
 const DETAIL_LIMIT = 750;

@@ -98,6 +98,7 @@ class Embeddings:
             indices_and_scores=indices_and_scores,
             embeddings=self,
             calculation_time=calculation_time,
+            query=query,
         )
 
     async def get_k_results_most_similar_to_id(self, id_: str, k: int) -> Results:
