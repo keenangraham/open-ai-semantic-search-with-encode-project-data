@@ -53,7 +53,7 @@ class SemanticSearch(Stack):
         vpc = Vpc.from_lookup(
             self,
             'DemoVpc',
-            vpc_id='vpc-0b5e3b97317057133'
+            vpc_id='vpc-04c01400456f63ed9',
         )
         certificate = Certificate.from_certificate_arn(
             self,
@@ -70,8 +70,8 @@ class SemanticSearch(Stack):
             'Fargate',
             service_name='semantic-search',
             vpc=vpc,
-            cpu=1024,
-            memory_limit_mib=3072,
+            cpu=512,
+            memory_limit_mib=1024,
             desired_count=1,
             circuit_breaker=DeploymentCircuitBreaker(
                 rollback=True,
